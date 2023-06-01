@@ -4,7 +4,10 @@ import com.study.lombok.Address.AddressEntity;
 import com.study.lombok.Address.AddressRepository;
 import com.study.lombok.Person.Dto.PersonCreateDto;
 import com.study.lombok.Person.Dto.PersonDetailDto;
+import com.study.lombok.Person.Dto.PersonListDto;
 import com.study.lombok.configuration.ErrorRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,6 +30,11 @@ public record PersonService(PersonRepository personRepository, AddressRepository
 
         personEntity.setAddressEntity(addressRepository.save(addressEntity));
         return new PersonCreateDto(personRepository.save(personEntity));
+    }
+
+    public Page<PersonListDto> listPerson(Pageable pageable) {
+        Page<PersonEntity> personEntityPage = personRepository.findAll(pageable);
+        return personEntityPage.map(PersonListDto::new);
     }
 
     public Optional<PersonDetailDto> detailPerson(Long id) {
