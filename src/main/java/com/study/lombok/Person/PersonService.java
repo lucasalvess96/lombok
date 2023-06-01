@@ -3,7 +3,11 @@ package com.study.lombok.Person;
 import com.study.lombok.Address.AddressEntity;
 import com.study.lombok.Address.AddressRepository;
 import com.study.lombok.Person.Dto.PersonCreateDto;
+import com.study.lombok.Person.Dto.PersonDetailDto;
+import com.study.lombok.configuration.ErrorRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public record PersonService(PersonRepository personRepository, AddressRepository addressRepository) {
@@ -23,5 +27,10 @@ public record PersonService(PersonRepository personRepository, AddressRepository
 
         personEntity.setAddressEntity(addressRepository.save(addressEntity));
         return new PersonCreateDto(personRepository.save(personEntity));
+    }
+
+    public Optional<PersonDetailDto> detailPerson(Long id) {
+        Optional<PersonEntity> personEntity = personRepository.findById(id);
+        return personEntity.map(entity -> Optional.of(new PersonDetailDto(entity))).orElseThrow(() -> new ErrorRequest("Usuário não encontrado"));
     }
 }

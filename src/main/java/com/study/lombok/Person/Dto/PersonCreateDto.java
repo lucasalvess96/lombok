@@ -7,16 +7,17 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
 
 public record PersonCreateDto(
 
         @NotBlank(message = "Nome nao deve está vazio")
         @Size(min = 3, max = 32)
-        @Pattern(regexp = "^([A-Za-z]+[A-Za-z ])*$")
+        @Pattern(regexp = "^([A-Za-z]+[A-Za-z ])*$", message="nome deve conter apenas letras")
         String name,
 
         @NotBlank(message = "idade deve ser preenchida")
-        @Size(min =2, max = 2)
+        @Size(min = 2, max = 2)
         String age,
 
         @NotBlank(message = "CPF deve ser preenchido")
@@ -26,6 +27,8 @@ public record PersonCreateDto(
         @Email
         String email,
 
+        @NotBlank(message = "senha deve ser preenchida, deve conter no minímo 6 caracteres")
+        @Length(min = 6, max = 32)
         String password,
 
         @Valid
