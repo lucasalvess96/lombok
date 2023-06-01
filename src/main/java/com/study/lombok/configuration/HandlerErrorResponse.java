@@ -35,8 +35,8 @@ public class HandlerErrorResponse {
         errorResponse.setTimestamp(LocalDateTime.now());
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
         errorResponse.setError("Recurso não encontrado");
-        errorResponse.setMessage(Collections.singletonList(errorRequest.getMessage()));
         errorResponse.setPath(httpServletRequest.getRequestURI());
+        errorResponse.setMessage(Collections.singletonList(errorRequest.getMessage()));
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 }

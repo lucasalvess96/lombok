@@ -31,6 +31,7 @@ public record PersonService(PersonRepository personRepository, AddressRepository
 
     public Optional<PersonDetailDto> detailPerson(Long id) {
         Optional<PersonEntity> personEntity = personRepository.findById(id);
-        return personEntity.map(entity -> Optional.of(new PersonDetailDto(entity))).orElseThrow(() -> new ErrorRequest("Usuário não encontrado"));
+        return personEntity.map(entity -> Optional.of(new PersonDetailDto(entity)))
+                .orElseThrow(() -> new ErrorRequest("Usuário não encontrado"));
     }
 }

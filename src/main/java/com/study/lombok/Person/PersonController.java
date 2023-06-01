@@ -29,8 +29,10 @@ public class PersonController {
     }
 
     @GetMapping("/detail/{id}")
-    public ResponseEntity<PersonDetailDto> detail(@PathVariable @Valid Long id){
+    public ResponseEntity<PersonDetailDto> detail(@PathVariable @Valid Long id) {
         Optional<PersonDetailDto> personDetailDto = personService.detailPerson(id);
-        return personDetailDto.map(detailDto -> ResponseEntity.status(HttpStatus.OK).body(detailDto)).orElseGet(() -> ResponseEntity.notFound().build());
+        return personDetailDto.map(detailDto -> ResponseEntity.status(HttpStatus.OK)
+                .body(detailDto))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
