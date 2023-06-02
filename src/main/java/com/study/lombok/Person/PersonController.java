@@ -3,6 +3,7 @@ package com.study.lombok.Person;
 import com.study.lombok.Person.Dto.PersonCreateDto;
 import com.study.lombok.Person.Dto.PersonDetailDto;
 import com.study.lombok.Person.Dto.PersonListDto;
+import com.study.lombok.Person.Dto.PersonSearchDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -44,5 +45,27 @@ public class PersonController {
         return personDetailDto.map(detailDto -> ResponseEntity.status(HttpStatus.OK)
                 .body(detailDto))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/update/{id}")
+    @Transactional
+    public ResponseEntity<PersonCreateDto> update(@PathVariable Long id, @RequestBody @Valid PersonCreateDto personCreateDto) {
+        PersonCreateDto personUpdate = personService.updatePerson(id, personCreateDto);
+        return new ResponseEntity<>(personUpdate, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<PersonSearchDto>> search(@RequestParam String name, Pageable pageable) {
+        Page<PersonSearchDto> personSearchDtos = personService.searchPerson(name, pageable);
+        if(personSearchDtos != null) {
+            return new ResponseEntity<>(personSearchDtos, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("deletar/{id}")
+    public ResponseEntity<PersonEntity> delete(@PathVariable Long id) {
+        personService.deletePerson(id);
+        return ResponseEntity.ok().build();
     }
 }

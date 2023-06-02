@@ -5,6 +5,7 @@ import com.study.lombok.Address.AddressRepository;
 import com.study.lombok.Person.Dto.PersonCreateDto;
 import com.study.lombok.Person.Dto.PersonDetailDto;
 import com.study.lombok.Person.Dto.PersonListDto;
+import com.study.lombok.Person.Dto.PersonSearchDto;
 import com.study.lombok.configuration.ErrorRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,39 @@ public record PersonService(PersonRepository personRepository, AddressRepository
 
     public PersonCreateDto createPerson(PersonCreateDto personCreateDto) {
         PersonEntity personEntity = new PersonEntity();
+        return getPersonCreateDtoAndUpdateDto(personCreateDto, personEntity);
+    }
+
+    public Page<PersonListDto> listPerson(Pageable pageable) {
+        Page<PersonEntity> personEntityPage = personRepository.findAll(pageable);
+        return personEntityPage.map(PersonListDto::new);
+    }
+
+    public Optional<PersonDetailDto> detailPerson(Long id) {
+        Optional<PersonEntity> personEntity = personRepository.findById(id);
+        return personEntity.map(entity -> Optional.of(new PersonDetailDto(entity)))
+                .orElseThrow(() -> new ErrorRequest("Usuário não encontrado"));
+    }
+
+    public PersonCreateDto updatePerson(Long id, PersonCreateDto personCreateDto) {
+        PersonEntity personEntity = personRepository.findById(id)
+                .orElseThrow(() -> new ErrorRequest("Recurso não encontrado"));
+        return getPersonCreateDtoAndUpdateDto(personCreateDto, personEntity);
+    }
+
+    public Page<PersonSearchDto> searchPerson(String name, Pageable pageable) {
+        return personRepository.findByNameContainingIgnoreCase(name, pageable);
+    }
+
+    public void deletePerson(Long id) {
+        if(personRepository.existsById(id)){
+            personRepository.deleteById(id);
+        }else{
+            throw new ErrorRequest("Recurso não encontrado");
+        }
+    }
+
+    private PersonCreateDto getPersonCreateDtoAndUpdateDto(PersonCreateDto personCreateDto, PersonEntity personEntity) {
         personEntity.setName(personCreateDto.name());
         personEntity.setAge(personCreateDto.age());
         personEntity.setCpf(personCreateDto.cpf());
@@ -30,16 +64,5 @@ public record PersonService(PersonRepository personRepository, AddressRepository
 
         personEntity.setAddressEntity(addressRepository.save(addressEntity));
         return new PersonCreateDto(personRepository.save(personEntity));
-    }
-
-    public Page<PersonListDto> listPerson(Pageable pageable) {
-        Page<PersonEntity> personEntityPage = personRepository.findAll(pageable);
-        return personEntityPage.map(PersonListDto::new);
-    }
-
-    public Optional<PersonDetailDto> detailPerson(Long id) {
-        Optional<PersonEntity> personEntity = personRepository.findById(id);
-        return personEntity.map(entity -> Optional.of(new PersonDetailDto(entity)))
-                .orElseThrow(() -> new ErrorRequest("Usuário não encontrado"));
     }
 }
