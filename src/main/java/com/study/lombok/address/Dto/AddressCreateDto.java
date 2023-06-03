@@ -1,7 +1,7 @@
-package com.study.lombok.Address.Dto;
+package com.study.lombok.address.Dto;
 
-import com.study.lombok.Address.AddressEntity;
-import com.study.lombok.Person.PersonEntity;
+import com.study.lombok.address.AddressEntity;
+import com.study.lombok.person.PersonEntity;
 
 public record AddressCreateDto(
         String street,

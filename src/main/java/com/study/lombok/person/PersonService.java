@@ -1,11 +1,11 @@
-package com.study.lombok.Person;
+package com.study.lombok.person;
 
-import com.study.lombok.Address.AddressEntity;
-import com.study.lombok.Address.AddressRepository;
-import com.study.lombok.Person.Dto.PersonCreateDto;
-import com.study.lombok.Person.Dto.PersonDetailDto;
-import com.study.lombok.Person.Dto.PersonListDto;
-import com.study.lombok.Person.Dto.PersonSearchDto;
+import com.study.lombok.address.AddressEntity;
+import com.study.lombok.address.AddressRepository;
+import com.study.lombok.person.Dto.PersonCreateDto;
+import com.study.lombok.person.Dto.PersonDetailDto;
+import com.study.lombok.person.Dto.PersonListDto;
+import com.study.lombok.person.Dto.PersonSearchDto;
 import com.study.lombok.configuration.ErrorRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

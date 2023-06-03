@@ -1,9 +1,9 @@
-package com.study.lombok.Person;
+package com.study.lombok.person;
 
-import com.study.lombok.Person.Dto.PersonCreateDto;
-import com.study.lombok.Person.Dto.PersonDetailDto;
-import com.study.lombok.Person.Dto.PersonListDto;
-import com.study.lombok.Person.Dto.PersonSearchDto;
+import com.study.lombok.person.Dto.PersonCreateDto;
+import com.study.lombok.person.Dto.PersonDetailDto;
+import com.study.lombok.person.Dto.PersonListDto;
+import com.study.lombok.person.Dto.PersonSearchDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

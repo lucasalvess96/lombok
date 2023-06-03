@@ -1,4 +1,4 @@
-package com.study.lombok.Address;
+package com.study.lombok.address;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

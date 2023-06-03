@@ -1,7 +1,7 @@
-package com.study.lombok.Person.Dto;
+package com.study.lombok.person.Dto;
 
-import com.study.lombok.Address.AddressEntity;
-import com.study.lombok.Person.PersonEntity;
+import com.study.lombok.address.AddressEntity;
+import com.study.lombok.person.PersonEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

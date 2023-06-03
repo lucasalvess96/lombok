@@ -1,7 +1,7 @@
-package com.study.lombok.Address;
+package com.study.lombok.address;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.study.lombok.Person.PersonEntity;
+import com.study.lombok.person.PersonEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

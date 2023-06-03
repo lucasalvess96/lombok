@@ -1,7 +1,7 @@
-package com.study.lombok.Person;
+package com.study.lombok.items;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.study.lombok.Address.AddressEntity;
+import com.study.lombok.cart.CartEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,24 +13,18 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonEntity {
+public class ItemsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String road;
 
-    private String age;
+    private String seats;
 
-    private String cpf;
-
-    private String email;
-
-    private String password;
-
-    @OneToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "ADDRESS_ID")
-    private AddressEntity addressEntity;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cart_id", referencedColumnName = "cart_id",  nullable = false)
+    private CartEntity cartEntity;
 }

@@ -1,6 +1,6 @@
-package com.study.lombok.Person;
+package com.study.lombok.person;
 
-import com.study.lombok.Person.Dto.PersonSearchDto;
+import com.study.lombok.person.Dto.PersonSearchDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

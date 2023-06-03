@@ -1,6 +1,6 @@
-package com.study.lombok.Person.Dto;
+package com.study.lombok.person.Dto;
 
-import com.study.lombok.Person.PersonEntity;
+import com.study.lombok.person.PersonEntity;
 
 public record PersonListDto(
         String name,
