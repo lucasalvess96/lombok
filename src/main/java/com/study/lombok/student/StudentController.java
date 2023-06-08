@@ -31,6 +31,6 @@ public class StudentController {
 
     @GetMapping("/list")
     public ResponseEntity<Page<StudentListDto>> list(@PageableDefault(direction = Sort.Direction.DESC)Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(studentService.studentList(pageable));
+        return ResponseEntity.ok().body(studentService.studentList(pageable));
     }
 }

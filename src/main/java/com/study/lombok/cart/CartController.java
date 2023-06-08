@@ -32,6 +32,6 @@ public class CartController {
 
     @GetMapping("/list")
     public ResponseEntity<Page<CartListDto>> list(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(cartService.cartList(pageable));
+        return ResponseEntity.ok().body(cartService.cartList(pageable));
     }
 }

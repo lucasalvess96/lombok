@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,14 +35,13 @@ public class PersonController {
 
     @GetMapping
     public ResponseEntity<Page<PersonListDto>> list(@PageableDefault(direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(personService.listPerson(pageable));
+        return ResponseEntity.ok().body(personService.listPerson(pageable));
     }
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<PersonDetailDto> detail(@PathVariable @Valid Long id) {
         Optional<PersonDetailDto> personDetailDto = personService.detailPerson(id);
-        return personDetailDto.map(detailDto -> ResponseEntity.status(HttpStatus.OK)
-                .body(detailDto))
+        return personDetailDto.map(detailDto -> ResponseEntity.ok().body(detailDto))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -51,16 +49,17 @@ public class PersonController {
     @Transactional
     public ResponseEntity<PersonCreateDto> update(@PathVariable Long id, @RequestBody @Valid PersonCreateDto personCreateDto) {
         PersonCreateDto personUpdate = personService.updatePerson(id, personCreateDto);
-        return new ResponseEntity<>(personUpdate, HttpStatus.OK);
+//        return new ResponseEntity<>(personUpdate, HttpStatus.OK);
+        return ResponseEntity.ok().body(personUpdate);
     }
 
     @GetMapping("/search")
     public ResponseEntity<Page<PersonSearchDto>> search(@RequestParam String name, Pageable pageable) {
         Page<PersonSearchDto> personSearchDtos = personService.searchPerson(name, pageable);
         if(personSearchDtos != null) {
-            return new ResponseEntity<>(personSearchDtos, HttpStatus.OK);
+            return ResponseEntity.ok().body(personSearchDtos);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("delete/{id}")
