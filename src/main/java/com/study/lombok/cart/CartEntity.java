@@ -16,7 +16,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="cartEntity")
 public class CartEntity {
 
     @Id
@@ -29,6 +28,6 @@ public class CartEntity {
     private String brand;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "cartEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cartEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemsEntity> itemsEntity = new ArrayList<>();
 }

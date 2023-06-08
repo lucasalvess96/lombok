@@ -23,4 +23,3 @@ public record StudentService(StudentRepository studentRepository) {
         return studentEntityPagE.map(StudentListDto::new);
     }
 }
-
