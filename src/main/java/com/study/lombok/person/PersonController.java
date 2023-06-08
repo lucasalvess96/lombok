@@ -49,17 +49,13 @@ public class PersonController {
     @Transactional
     public ResponseEntity<PersonCreateDto> update(@PathVariable Long id, @RequestBody @Valid PersonCreateDto personCreateDto) {
         PersonCreateDto personUpdate = personService.updatePerson(id, personCreateDto);
-//        return new ResponseEntity<>(personUpdate, HttpStatus.OK);
         return ResponseEntity.ok().body(personUpdate);
     }
 
     @GetMapping("/search")
     public ResponseEntity<Page<PersonSearchDto>> search(@RequestParam String name, Pageable pageable) {
         Page<PersonSearchDto> personSearchDtos = personService.searchPerson(name, pageable);
-        if(personSearchDtos != null) {
-            return ResponseEntity.ok().body(personSearchDtos);
-        }
-        return ResponseEntity.notFound().build();
+        return personSearchDtos != null ? ResponseEntity.ok().body(personSearchDtos) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("delete/{id}")
