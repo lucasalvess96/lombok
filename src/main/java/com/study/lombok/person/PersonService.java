@@ -2,11 +2,11 @@ package com.study.lombok.person;
 
 import com.study.lombok.address.AddressEntity;
 import com.study.lombok.address.AddressRepository;
+import com.study.lombok.configuration.ErrorRequest;
 import com.study.lombok.person.Dto.PersonCreateDto;
 import com.study.lombok.person.Dto.PersonDetailDto;
 import com.study.lombok.person.Dto.PersonListDto;
 import com.study.lombok.person.Dto.PersonSearchDto;
-import com.study.lombok.configuration.ErrorRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,24 +28,23 @@ public record PersonService(PersonRepository personRepository, AddressRepository
 
     public Optional<PersonDetailDto> detailPerson(Long id) {
         Optional<PersonEntity> personEntity = personRepository.findById(id);
-        return personEntity.map(entity -> Optional.of(new PersonDetailDto(entity)))
-                .orElseThrow(() -> new ErrorRequest("Usuário não encontrado"));
+        return personEntity.map(entity -> Optional.of(new PersonDetailDto(entity))).orElseThrow(() -> new ErrorRequest("Usuário não encontrado"));
     }
 
     public PersonCreateDto updatePerson(Long id, PersonCreateDto personCreateDto) {
-        PersonEntity personEntity = personRepository.findById(id)
-                .orElseThrow(() -> new ErrorRequest("Recurso não encontrado"));
+        PersonEntity personEntity = personRepository.findById(id).orElseThrow(() -> new ErrorRequest("Recurso não encontrado"));
         return getPersonCreateDtoAndUpdateDto(personCreateDto, personEntity);
     }
 
     public Page<PersonSearchDto> searchPerson(String name, Pageable pageable) {
-        return personRepository.findByNameContainingIgnoreCase(name, pageable);
+        Page<PersonEntity> personEntityPage = personRepository.findByNameContainingIgnoreCase(name, pageable);
+        return personEntityPage.map(personEntity -> new PersonSearchDto(personEntity.getName()));
     }
 
     public void deletePerson(Long id) {
-        if(personRepository.existsById(id)){
+        if (personRepository.existsById(id)) {
             personRepository.deleteById(id);
-        }else{
+        } else {
             throw new ErrorRequest("Recurso não encontrado");
         }
     }

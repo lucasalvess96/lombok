@@ -41,8 +41,7 @@ public class PersonController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<PersonDetailDto> detail(@PathVariable @Valid Long id) {
         Optional<PersonDetailDto> personDetailDto = personService.detailPerson(id);
-        return personDetailDto.map(detailDto -> ResponseEntity.ok().body(detailDto))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return personDetailDto.map(detailDto -> ResponseEntity.ok().body(detailDto)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/update/{id}")
@@ -55,7 +54,7 @@ public class PersonController {
     @GetMapping("/search")
     public ResponseEntity<Page<PersonSearchDto>> search(@RequestParam String name, Pageable pageable) {
         Page<PersonSearchDto> personSearchDtos = personService.searchPerson(name, pageable);
-        return personSearchDtos != null ? ResponseEntity.ok().body(personSearchDtos) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(personSearchDtos);
     }
 
     @DeleteMapping("delete/{id}")
