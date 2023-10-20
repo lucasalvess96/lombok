@@ -1,13 +1,9 @@
 package com.study.lombok.student.Dto;
 
-import com.study.lombok.student.StudentEntity;
+import com.study.lombok.course.Dto.CourseCreateDto;
 
-public record StudentListDto(String name, String departament) {
+import java.util.Set;
 
-    public StudentListDto(StudentEntity student) {
-        this(
-                student.getName(),
-                student.getDepartament()
-        );
-    }
+public record StudentListDto(Long id, String name, String age, String departament,
+                             Set<CourseCreateDto> courseCreateDtoSet) {
 }

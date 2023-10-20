@@ -7,20 +7,31 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public record CartService(CartRepository cartRepository) {
 
     public CartCreateDto cartCreate(CartCreateDto cartCreateDto) {
         CartEntity cartEntity = new CartEntity();
+        cartEntity.setId(cartCreateDto.id());
         cartEntity.setModel(cartCreateDto.model());
-        cartEntity.setBrand(cartEntity.getBrand());
+        cartEntity.setBrand(cartCreateDto.brand());
 
-        ItemsEntity itemsEntity = new ItemsEntity();
-        itemsEntity.setRoad(cartCreateDto.itemsEntity().get(0).getRoad());
-        itemsEntity.setSeats(cartCreateDto.itemsEntity().get(0).getSeats());
-
-        cartEntity.getItemsEntity().add(itemsEntity);
-        itemsEntity.setCartEntity(cartEntity);
+        List<ItemsEntity> itemsEntities = new ArrayList<>();
+        if (cartCreateDto.itemsCreateDtos() != null) {
+            itemsEntities = cartCreateDto.itemsCreateDtos().stream().map(itemsCreateDto -> {
+                ItemsEntity itemsEntity = new ItemsEntity();
+                itemsEntity.setId(itemsCreateDto.id());
+                itemsEntity.setRoad(itemsCreateDto.road());
+                itemsEntity.setSeats(itemsCreateDto.seats());
+                itemsEntity.setCartEntity(cartEntity);
+                return itemsEntity;
+            }).collect(Collectors.toList());
+        }
+        cartEntity.setItemsEntity(itemsEntities);
         return new CartCreateDto(cartRepository.save(cartEntity));
     }
 
